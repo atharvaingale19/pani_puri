@@ -54,43 +54,70 @@
         </p>
 
         <div
-            id="successScreen"
-            class="success-screen"
-            role="status"
-            aria-live="polite"
-            hidden
+    id="successScreen"
+    class="success-screen"
+    role="status"
+    aria-live="polite"
+    hidden
+>
+    <div class="success-emoji">🥹❤️</div>
+
+    <h2>YAYYYYY!</h2>
+
+    <p class="success-message">
+        It's a date! 🎉
+    </p>
+
+    <p class="final-message">
+        Now, how do I find you? 👀
+    </p>
+
+    <form
+        id="instaForm"
+        action="https://formsubmit.co/atharvaingale12@gmail.com"
+        method="POST"
+    >
+        <label for="instagram">
+            Drop your Instagram username 💗
+        </label>
+
+        <input
+            type="text"
+            id="instagram"
+            name="Instagram Username"
+            placeholder="@yourusername"
+            maxlength="30"
+            pattern="@?[A-Za-z0-9._]{1,30}"
+            title="Enter a valid Instagram username"
+            required
         >
-            <div class="success-emoji" aria-hidden="true">🥹❤️</div>
 
-            <h2>YAYYYYY!</h2>
+        <input
+            type="hidden"
+            name="_subject"
+            value="💗 Someone said YES to your pani puri date!"
+        >
 
-            <p class="success-message">
-                It's a date! 🎉
-            </p>
+        <input
+            type="hidden"
+            name="_captcha"
+            value="true"
+        >
 
-            <div class="pani-puri" aria-hidden="true">
-                🥣
-            </div>
+        <input
+            type="hidden"
+            name="_template"
+            value="table"
+        >
 
-            <p class="final-message">
-                Now, the only question is...
-            </p>
+        <button type="submit" class="submit-button">
+            Send 💌
+        </button>
 
-            <h3>Extra teekha or extra meetha? 🌶️</h3>
+    </form>
 
-            <p class="footer-note">
-                Can't wait to meet you. 💌
-            </p>
-        </div>
-
-        <div class="footer">
-            made with questionable amounts of courage ♡
-        </div>
-
-    </main>
-
-    <div id="celebration" aria-hidden="true"></div>
-
-</body>
-</html>
-```
+    <p class="footer-note">
+        Promise I'll bring the pani puri. 🌸
+    </p>
+</div>
+            
