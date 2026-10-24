@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>A Little Question 💗</title>
-
     <meta
         name="description"
-        content="I've got a very important question for you. 💌"
+        content="I've got a very important question for you. 💗"
     >
+
+    <title>A Little Question 💗</title>
 
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
@@ -27,97 +27,118 @@
             🥹💗
         </div>
 
-        <p class="eyebrow">A VERY IMPORTANT QUESTION</p>
-
-        <h1 id="question">
-            Would you like to go on a pani puri date with me?
-        </h1>
-
-        <p class="subtitle">
-            Think carefully. This could be the beginning of something delicious. 🌸
+        <p class="eyebrow" id="eyebrow">
+            A VERY IMPORTANT QUESTION
         </p>
 
-        <div class="button-area" id="buttonArea">
+        <section id="questionScreen">
 
-            <button id="yesButton" class="yes-button">
-                YES! 💗
-            </button>
+            <h1 id="question">
+                Would you like to go on a pani puri date with me?
+            </h1>
 
-            <button id="noButton" class="no-button">
-                NO 🙃
-            </button>
+            <p class="subtitle">
+                Think carefully. This could be the beginning
+                of something delicious. 🌸
+            </p>
 
+            <div class="button-area" id="buttonArea">
+
+                <button
+                    type="button"
+                    id="yesButton"
+                    class="yes-button"
+                >
+                    YES! 💗
+                </button>
+
+                <button
+                    type="button"
+                    id="noButton"
+                    class="no-button"
+                >
+                    NO 🙃
+                </button>
+
+            </div>
+
+            <p class="hint" id="hint">
+                Choose wisely. 👀
+            </p>
+
+        </section>
+
+        <section
+            id="successScreen"
+            class="success-screen"
+            hidden
+        >
+
+            <div class="success-emoji" aria-hidden="true">
+                🥹❤️
+            </div>
+
+            <h2>YAYYYYY!</h2>
+
+            <p class="success-message">
+                It's a date! 🎉
+            </p>
+
+            <p class="final-message">
+                Now, how do I find you? 👀
+            </p>
+
+            <form id="instaForm">
+
+                <label for="instagram">
+                    Drop your Instagram username 💗
+                </label>
+
+                <input
+                    type="text"
+                    id="instagram"
+                    name="instagram"
+                    placeholder="@yourusername"
+                    minlength="1"
+                    maxlength="30"
+                    pattern="@?[A-Za-z0-9._]{1,30}"
+                    title="Enter a valid Instagram username."
+                    autocomplete="off"
+                    autocapitalize="none"
+                    spellcheck="false"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    id="submitButton"
+                    class="submit-button"
+                >
+                    Send 💌
+                </button>
+
+                <p
+                    id="formMessage"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite"
+                ></p>
+
+            </form>
+
+            <p class="footer-note">
+                Promise I'll bring the pani puri. 🌸
+            </p>
+
+        </section>
+
+        <div class="footer">
+            made with questionable amounts of courage ♡
         </div>
 
-        <p class="hint" id="hint">
-            Choose wisely. 👀
-        </p>
+    </main>
 
-        <div
-    id="successScreen"
-    class="success-screen"
-    role="status"
-    aria-live="polite"
-    hidden
->
-    <div class="success-emoji">🥹❤️</div>
+    <div id="celebration" aria-hidden="true"></div>
 
-    <h2>YAYYYYY!</h2>
-
-    <p class="success-message">
-        It's a date! 🎉
-    </p>
-
-    <p class="final-message">
-        Now, how do I find you? 👀
-    </p>
-
-    <form
-        id="instaForm"
-        action="https://formsubmit.co/atharvaingale12@gmail.com"
-        method="POST"
-    >
-        <label for="instagram">
-            Drop your Instagram username 💗
-        </label>
-
-        <input
-            type="text"
-            id="instagram"
-            name="Instagram Username"
-            placeholder="@yourusername"
-            maxlength="30"
-            pattern="@?[A-Za-z0-9._]{1,30}"
-            title="Enter a valid Instagram username"
-            required
-        >
-
-        <input
-            type="hidden"
-            name="_subject"
-            value="💗 Someone said YES to your pani puri date!"
-        >
-
-        <input
-            type="hidden"
-            name="_captcha"
-            value="true"
-        >
-
-        <input
-            type="hidden"
-            name="_template"
-            value="table"
-        >
-
-        <button type="submit" class="submit-button">
-            Send 💌
-        </button>
-
-    </form>
-
-    <p class="footer-note">
-        Promise I'll bring the pani puri. 🌸
-    </p>
-</div>
-            
+</body>
+</html>
