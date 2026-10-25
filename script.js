@@ -1,19 +1,13 @@
+
 "use strict";
 
 // ==================================================
-// CONFIGURATION
+// CONFIGURATION: EMAILJS
 // ==================================================
 
-// Replace this with the email address activated in FormSubmit.
-const OWNER_EMAIL = "atharvaingale12@gmail.com";
-
-// FormSubmit AJAX endpoint.
-const FORM_ENDPOINT =
-    `https://formsubmit.co/ajax/${OWNER_EMAIL}`;
-
-// Maximum time to wait for the email service.
-const REQUEST_TIMEOUT = 15000;
-
+const EMAILJS_SERVICE_ID = "service_r93zqw9";
+const EMAILJS_TEMPLATE_ID = "template_v0i83a2";
+const EMAILJS_PUBLIC_KEY = "Mv6Vf4ZHUmm1B3zsw";
 
 // ==================================================
 // ELEMENTS
@@ -40,6 +34,19 @@ const formMessage = document.getElementById("formMessage");
 
 const celebration = document.getElementById("celebration");
 
+// ==================================================
+// INITIALIZE EMAILJS
+// ==================================================
+
+if (typeof emailjs !== "undefined") {
+    emailjs.init({
+        publicKey: EMAILJS_PUBLIC_KEY
+    });
+} else {
+    console.error(
+        "EmailJS SDK is missing. Check the EmailJS script in index.html."
+    );
+}
 
 // ==================================================
 // RUNAWAY NO BUTTON
@@ -173,32 +180,25 @@ window.addEventListener("resize", () => {
     noButton.style.top = `${Math.min(y, maxY)}px`;
 });
 
-
 // ==================================================
 // YES BUTTON
 // ==================================================
 
 yesButton.addEventListener("click", () => {
-    // Hide the entire question screen.
     questionScreen.hidden = true;
 
-    // Hide its decorations.
     eyebrow.hidden = true;
     topDecoration.hidden = true;
     illustration.hidden = true;
 
-    // Reveal the success screen.
     successScreen.hidden = false;
 
-    // Start the celebration.
     launchCelebration();
 
-    // Focus the username field after the transition.
     setTimeout(() => {
         instagramInput.focus({ preventScroll: true });
     }, 600);
 });
-
 
 // ==================================================
 // HEART CELEBRATION
@@ -236,21 +236,19 @@ function launchCelebration() {
     }
 }
 
-
 // ==================================================
-// INSTAGRAM VALIDATION
+// INSTAGRAM USERNAME VALIDATION
 // ==================================================
 
 function getValidatedUsername(value) {
     let username = value.trim();
 
-    // Remove a single leading @ if present.
+    // Remove a leading @ if present.
     if (username.startsWith("@")) {
         username = username.slice(1);
     }
 
-    // Instagram usernames contain letters, numbers,
-    // periods and underscores.
+    // Instagram usernames allow letters, numbers, periods and underscores.
     const validUsername = /^[A-Za-z0-9._]{1,30}$/;
 
     if (!validUsername.test(username)) {
@@ -274,15 +272,14 @@ function getValidatedUsername(value) {
     return username;
 }
 
-
 // ==================================================
-// EMAIL SUBMISSION
+// EMAIL SUBMISSION THROUGH EMAILJS
 // ==================================================
 
 instaForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // Validate before sending.
+    // Validate the Instagram username.
     let username;
 
     try {
@@ -298,78 +295,51 @@ instaForm.addEventListener("submit", async (event) => {
         return;
     }
 
+    // Ensure EmailJS loaded.
+    if (typeof emailjs === "undefined") {
+        formMessage.textContent =
+            "The email service failed to load. Please refresh and try again.";
+
+        formMessage.className = "form-message error";
+        return;
+    }
+
     submitButton.disabled = true;
     submitButton.textContent = "Sending... 💌";
 
     formMessage.textContent = "";
     formMessage.className = "form-message";
 
-    const controller = new AbortController();
-
-    const timeoutId = setTimeout(() => {
-        controller.abort();
-    }, REQUEST_TIMEOUT);
-
     try {
-        const payload = {
-            email: OWNER_EMAIL,
-            _subject: "💗 Someone said YES to your pani puri date!",
-            _template: "table",
-            _captcha: "true",
-            "Instagram Username": `@${username}`
-        };
+        // Send the Instagram username to your configured email recipient.
+        await emailjs.send(
+            EMAILJS_SERVICE_ID,
+            EMAILJS_TEMPLATE_ID,
+            {
+                instagram_username: `@${username}`
+            }
+        );
 
-        const response = await fetch(FORM_ENDPOINT, {
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-
-            body: JSON.stringify(payload),
-
-            signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        const result = await response.json().catch(() => null);
-
-        if (!response.ok || !result || result.success !== "true") {
-            throw new Error(
-                result?.message ||
-                "The email service could not accept the submission."
-            );
-        }
-
-        // Replace the form only after the service accepts it.
+        // Show the success message only after EmailJS accepts the request.
         instaForm.innerHTML = `
-            <div class="form-message success">
-                <h3>Got my Gift (Your ID 💗) </h3>
-                <p>
-                    Now let's plan that pani puri date. 🌸
-                </p>
-            </div>
-        `;
+    <div class="form-message success">
+        <h3>YOU JUST MADE MY DAY. 💗😭</h3>
+        <p>Your pani puri date is officially in the making. 🌸💕</p>
+        <p>Now, don't keep me waiting, cutie. 🫶🏻</p>
+    </div>
+`;
 
     } catch (error) {
-        clearTimeout(timeoutId);
-
-        console.error("Form submission error:", error);
+        console.error("EmailJS submission error:", error);
 
         submitButton.disabled = false;
         submitButton.textContent = "Try again 💌";
 
         formMessage.className = "form-message error";
 
-        if (error.name === "AbortError") {
-            formMessage.textContent =
-                "The request timed out. Check your connection and try again.";
-        } else {
-            formMessage.textContent =
-                "We couldn't send your username. Please try again in a moment.";
-        }
+        formMessage.textContent =
+            "We couldn't send your username. Please try again in a moment.";
 
     }
 });
+
